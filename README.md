@@ -4,7 +4,7 @@
 
 The application shouldn't  be deployed, it's just for local development purposes.
 
-## Example
+## Example of public OIDC configuration
 
 * Google : https://accounts.google.com/.well-known/openid-configuration
 * Salesforce : https://login.salesforce.com/.well-known/openid-configuration
