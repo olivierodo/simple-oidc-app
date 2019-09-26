@@ -32,7 +32,27 @@ You can edit the environment variable on the file `.env.`
   * `URL_OPENID` : the public oidc url configuration
   * `RENDER_TYPE` : Define the render for the first page : html or json (default: json)
 
-  
+If you want to test a simple oauth2 endpoint, you will need to create a local config and share it in the `URL_OPENID` env var
+
+Example with github.com
+
+```
+## config.json
+{
+  "authorization_endpoint": "https://github.com/login/oauth/authorize",
+  "token_endpoint": "https://github.com/login/oauth/access_token"
+}
+
+```
+
+Then on the `.env` file you need to add :
+
+```
+## .env
+
+URL_OPENID=./config.json
+```
+
 ### Run :running:
 
 
