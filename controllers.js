@@ -20,13 +20,15 @@ function index(req, res) {
 
   let login = `${oidc.authorization_endpoint}?${params}`
 
-  res.json({
+  res.render({
      href: {
        login,
        redirectUrl,
        logout: `${host}/logout`
      },
-     oidc : config.openidConfiguration
+     info: {
+       oidc : config.openidConfiguration
+     }
   })
 }
 
@@ -38,6 +40,9 @@ function callback(req, res, next) {
     throw new Error( `${error} - ${error_description }`)
   }
 
+  let host = `${req.protocol}://${req.get('host')}`
+  let redirectUrl = `${host}/callback`
+
   let options = {
     url:  oidc.token_endpoint,
     method: 'POST',
@@ -47,24 +52,23 @@ function callback(req, res, next) {
       'client_id': config.client.id,
       'client_secret': config.client.secret,
       'grant_type': 'authorization_code',
-      'redirect_uri': config.client.callbackUrl
+      'redirect_uri': redirectUrl
     },
     json: true
   }
   
-  console.log(options)
-  
   request(options, (err, response, body) => {
     if (err) return next(err)
 
-    let host = `${req.protocol}://${req.get('host')}`
     let result = {
       href: {
         index: host
 //        logout: `${req.protocol}://${req.get('host')}/logout`
       }
     }
-    result.oidc_token = body
+    result.info = {
+      token: body
+    }
     
     let options = {
       url:  oidc.userinfo_endpoint,
@@ -76,7 +80,7 @@ function callback(req, res, next) {
     }
 
     request(options, (err, response, body) => {
-      result.userInfo = body 
+      result.info.user = body 
       res.json(result)
     })
   })

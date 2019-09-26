@@ -1,10 +1,11 @@
 module.exports = {
-  openidConfiguration: process.env.URL_OPENID,
-  client: {
-    id: process.env.CLIENT_ID,
-    secret: process.env.CLIENT_SECRET,
-    callbackUrl: process.env.CLIENT_CALLBACK_URL,
+  render: {
+    type: process.env.RENDER_TYPE || 'json' // Define the type of render you need for the first page "json provide more detail
   },
-  port: process.env.PORT || 8080
+  openidConfiguration: process.env.URL_OPENID, // Link of the open id connect remote config
+  client: {
+    id: process.env.CLIENT_ID, // Client id created in the oidc provider
+    secret: process.env.CLIENT_SECRET //Client secret shared by the oidc provider
+  },
+  port: process.env.PORT || 8080 // running port 
 }
-
